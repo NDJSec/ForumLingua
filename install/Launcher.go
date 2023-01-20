@@ -32,11 +32,13 @@ func main() {
 		}
 
 		if cfg.Section("requiredPackages").Key("pythonDependencies").MustBool() == false {
-			pythonCmd := exec.Command("python", "setup.py", "install")
+			script := "setup.py"
+			pyAgrs := "install"
+			pythonCmd := exec.Command("cmd", "python", script, pyAgrs)
 			pyErr := pythonCmd.Run()
 
 			if pyErr != nil {
-				log.Fatal("Dependencies not installed. Check dependencies or contact maintainer")
+				log.Fatal("Dependencies not installed. Check dependencies by running 'python setup.py install' or contact maintainer")
 			}
 			cfg.Section("requiredPackages").Key("pythonDependencies").SetValue("true")
 		}
@@ -59,6 +61,7 @@ func main() {
 		}
 
 	} else {
+		fmt.Println("ForumLingua Installed 😊")
 		cmd := exec.Command("ForumLingua")
 		err := cmd.Run()
 
