@@ -1,0 +1,12 @@
+python/__pycache__
+python/build
+python/dist
+python/Forum_Lingua.egg-info
+
+install/build
+install/dist
+install/Forum_Lingua.egg-info
+
+build/
+dist/
+Forum_Lingua.egg-info/

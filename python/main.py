@@ -1,4 +1,4 @@
-from ui import Ui
+from python.ui import Ui
 
 def main() -> None:
     UI = Ui()

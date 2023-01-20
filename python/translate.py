@@ -5,7 +5,7 @@ class Translate():
         self._untranslatedText = untranslatedText
         self._sourceLanguage = b"en"
         self._targetLanguage = targetLanguage
-        self._lib = ctypes.CDLL("../src/translate.dll")
+        self._lib = ctypes.CDLL("src/translate.dll")
         self._translate = self._lib.translate
 
         self._translate.argtypes = [

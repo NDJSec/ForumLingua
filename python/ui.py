@@ -1,6 +1,5 @@
 from tkinter import *
-from translate import Translate
-import threading
+from python.translate import Translate
 
 class Ui():
     def __init__(self) -> None:
