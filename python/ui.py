@@ -1,10 +1,13 @@
 from tkinter import *
 from python.translate import Translate
+import pickle
+import os.path
 
 class Ui():
     def __init__(self) -> None:
         self._ENTRY_X_POS = 380
         self._LABEL_X_POS = 220
+        self._TCS = False
 
         self._master = Tk()
 
@@ -17,6 +20,12 @@ class Ui():
             'translated5Text': StringVar()
         }
         
+        if os.path.exists('assets/translationCodes.pkl'):
+            with open('assets/translationCodes.pkl', 'rb') as fp:
+                self._translationCodesStored = pickle.load(fp)
+            self._TCS = True
+            print(self._translationCodesStored)
+
         self._translationCodes = {
             'translationCode1': StringVar(),
             'translationCode2': StringVar(),
@@ -24,8 +33,22 @@ class Ui():
             'translationCode4': StringVar(),
             'translationCode5': StringVar(),
         }
+        
+        self._master.protocol("WM_DELETE_WINDOW", self._close)
 
         self._createUiWindow()
+
+    def _close(self):
+        self._translationCodesStored = {
+            'translationCode1': self._translationCodes['translationCode1'].get(),
+            'translationCode2': self._translationCodes['translationCode2'].get(),
+            'translationCode3': self._translationCodes['translationCode3'].get(),
+            'translationCode4': self._translationCodes['translationCode4'].get(),
+            'translationCode5': self._translationCodes['translationCode5'].get(),
+        }
+        with open('assets/translationCodes.pkl', 'wb') as fp:
+            pickle.dump(self._translationCodesStored, fp)
+        self._master.destroy() 
     
     def _createUiWindow(self) -> None:
         
@@ -48,9 +71,21 @@ class Ui():
         #Create English Input Box
         Label(self._master, text="English", width=20, font=("bold", 10)).place(x=self._LABEL_X_POS, y=130)
         Entry(self._master, textvariable=self._languagesDict['untranslatedText']).place(x=self._ENTRY_X_POS, y=130, width=230)
+        
+        if self._TCS:
+            self._createTranslateCodeEntry(self._translationCodesStored['translationCode1'], "translationCode1", 160)
+            self._createTranslateCodeEntry(self._translationCodesStored['translationCode2'], "translationCode2", 190)
+            self._createTranslateCodeEntry(self._translationCodesStored['translationCode3'], "translationCode3", 220)
+            self._createTranslateCodeEntry(self._translationCodesStored['translationCode4'], "translationCode4", 250)
+            self._createTranslateCodeEntry(self._translationCodesStored['translationCode5'], "translationCode5", 280)
+        else:
+            self._createTranslateCodeEntry("", "translationCode1", 160)
+            self._createTranslateCodeEntry("", "translationCode2", 190)
+            self._createTranslateCodeEntry("", "translationCode3", 220)
+            self._createTranslateCodeEntry("", "translationCode4", 250)
+            self._createTranslateCodeEntry("", "translationCode5", 280)
 
         # Create Language 1 Boxes
-        self._createTranslateCodeEntry("", "translationCode1", 160)
         Entry(
             self._master,
             textvariable=self._languagesDict['translated1Text'],
@@ -58,7 +93,6 @@ class Ui():
         ).place(x=self._ENTRY_X_POS, y=160, width=230)
 
         # Create Language 2 Boxes
-        self._createTranslateCodeEntry("", "translationCode2", 190)
         Entry(
             self._master,
             textvariable=self._languagesDict['translated2Text'],
@@ -66,7 +100,6 @@ class Ui():
         ).place(x=self._ENTRY_X_POS, y=190, width=230)
 
         # Create Language 3 Boxes
-        self._createTranslateCodeEntry("", "translationCode3", 220)
         Entry(
             self._master,
             textvariable=self._languagesDict['translated3Text'],
@@ -74,7 +107,6 @@ class Ui():
         ).place(x=self._ENTRY_X_POS, y=220, width=230)
 
         # Create Language 4 Boxes
-        self._createTranslateCodeEntry("", "translationCode4", 250)
         Entry(
             self._master,
             textvariable=self._languagesDict['translated4Text'],
@@ -82,7 +114,6 @@ class Ui():
         ).place(x=self._ENTRY_X_POS, y=250, width=230)
 
         # Create Language 5 Boxes
-        self._createTranslateCodeEntry("", "translationCode5", 280)
         Entry(
             self._master,
             textvariable=self._languagesDict['translated5Text'],
