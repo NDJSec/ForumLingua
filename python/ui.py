@@ -92,8 +92,7 @@ class Ui():
 
         # Create translate button
         self._master.bind('<Return>', self._translate)
-        Button(self._master, text="Translate").place(x=370, y=310)
-        self._master.bind('<Button-1>', self._translate)
+        Button(self._master, text="Translate", command=self._translate).place(x=370, y=310)
 
     def _createTranslateCodeEntry(self, displayText: str, translationCodeEntry: str, y_pos: int) -> Entry:
         self._translationCodes[translationCodeEntry].set(displayText)
